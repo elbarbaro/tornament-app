@@ -3,155 +3,56 @@ package main
 import (
 	"fmt"
 
-	"elbarbaro.com/tornament-app/models"
+	"elbarbaro.com/tornament-app/controllers"
 )
 
 func main() {
-	fmt.Println("Hello World")
+	fmt.Print("Hello World\n\n")
 
-	malayo := models.Coach{
-		Id:   1,
-		Name: "Benjamin Mora",
-	}
+	coachController := controllers.NewCoachController()
+	teamController := controllers.NewTeamController()
+	playerController := controllers.NewPlayerController()
 
-	paunovich := models.Coach{
-		Id:   2,
-		Name: "Velikoj Paunovich",
-	}
+	malayo := coachController.CreateCoach("Benjamin Mora", 40)
+	paunovich := coachController.CreateCoach("Velikoj Paunovich", 70)
+	vucetich := coachController.CreateCoach("Victor Vucetich", 85)
 
-	vucetich := models.Coach{
-		Id:   3,
-		Name: "Victor Vucetich",
-	}
-
-	atlas := models.Team{
-		Id:    1,
-		Name:  "Atlas",
-		Coach: malayo,
-	}
-
-	chivas := models.Team{
-		Id:    2,
-		Name:  "Guadalajara",
-		Coach: paunovich,
-	}
-
-	rayados := models.Team{
-		Id:    3,
-		Name:  "Monterrey",
-		Coach: vucetich,
-	}
+	atlas := teamController.CreateTeam("Atlas", malayo)
+	chivas := teamController.CreateTeam("Guadalajara", paunovich)
+	rayados := teamController.CreateTeam("Monterrey", vucetich)
 
 	fmt.Println(atlas)
 	fmt.Println(chivas)
 	fmt.Println(rayados)
 
-	quinones := models.Player{
-		Id:       1,
-		Name:     "Julian Quiñones",
-		Number:   33,
-		Country:  "CO",
-		Position: "DEL",
-	}
+	quinones := playerController.CreatePlayer("Julian Quiñones", 33, "CO", "DEL", "-")
+	furch := playerController.CreatePlayer("Julio Furch", 9, "AR", "DEL", "-")
+	camilo := playerController.CreatePlayer("Camilo Vargas", 12, "CO", "POR", "C")
 
 	atlas.AddPlayer(quinones)
-
+	atlas.AddPlayer(furch)
+	atlas.AddPlayer(camilo)
 	atlas.ShowPlayers()
 
-	clausura2023 := models.Tournament{
-		Id:   1,
-		Name: "Clausura 2023",
-	}
+	fmt.Println("\nGet all players...")
+	players := playerController.GetAll()
+	fmt.Println(players)
+	fmt.Println("\nGet player where id is :")
+	playerId1 := playerController.GetById(1)
+	fmt.Println(playerId1)
 
-	game1 := models.Game{
-		Id:      1,
-		TeamA:   atlas,
-		TeamB:   chivas,
-		Stadium: "Estadio Jalisco",
-		Date:    "2023-10-01",
-	}
+	fmt.Println("\nGet all teams...")
+	teams := teamController.GetAll()
+	fmt.Println(teams)
+	fmt.Println("\nGet team where id is 1:")
+	teamId1 := teamController.GetTeamById(1)
+	fmt.Println(teamId1)
 
-	game2 := models.Game{
-		Id:      2,
-		TeamA:   rayados,
-		TeamB:   atlas,
-		Stadium: "Estadio BBVA",
-		Date:    "2023-10-07",
-	}
+	fmt.Println("\nGet all coachs...")
+	coachs := coachController.GetAll()
+	fmt.Println(coachs)
 
-	game3 := models.Game{
-		Id:      2,
-		TeamA:   chivas,
-		TeamB:   rayados,
-		Stadium: "Estadio Akron",
-		Date:    "2023-10-14",
-	}
-
-	clausura2023.AddGame(game1)
-	clausura2023.AddGame(game2)
-	clausura2023.AddGame(game3)
-
-	clausura2023.ShowGames()
-
-	resultGame1 := models.Score{
-		Id:     1,
-		Game:   game1,
-		GoalsA: 1,
-		GoalsB: 0,
-	}
-
-	resultGame2 := models.Score{
-		Id:     2,
-		Game:   game2,
-		GoalsA: 2,
-		GoalsB: 3,
-	}
-
-	resultGame3 := models.Score{
-		Id:     3,
-		Game:   game3,
-		GoalsA: 1,
-		GoalsB: 1,
-	}
-
-	fmt.Println(resultGame1)
-	fmt.Println(resultGame2)
-	fmt.Println(resultGame3)
-
-	atlasTournament := models.TournamentTeam{
-		Id:           1,
-		Team:         atlas,
-		Points:       21,
-		WonMatches:   4,
-		LostMatches:  3,
-		DrawnMatches: 8,
-	}
-
-	chivasTournament := models.TournamentTeam{
-		Id:           2,
-		Team:         chivas,
-		Points:       31,
-		WonMatches:   6,
-		LostMatches:  4,
-		DrawnMatches: 4,
-	}
-
-	rayadosTournament := models.TournamentTeam{
-		Id:           3,
-		Team:         rayados,
-		Points:       37,
-		WonMatches:   12,
-		LostMatches:  2,
-		DrawnMatches: 1,
-	}
-
-	clausura2023Leaderboard := models.Leaderboard{
-		Tournament: clausura2023,
-	}
-
-	clausura2023Leaderboard.AddTournamentTeam(atlasTournament)
-	clausura2023Leaderboard.AddTournamentTeam(chivasTournament)
-	clausura2023Leaderboard.AddTournamentTeam(rayadosTournament)
-
-	clausura2023Leaderboard.Show()
+	fmt.Println("\nGet coach where id is 1:")
+	coachId1 := coachController.GetCoachById(1)
+	fmt.Println(coachId1)
 }
