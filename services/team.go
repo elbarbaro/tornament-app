@@ -11,19 +11,19 @@ type teamService struct {
 }
 
 func NewTeamService() interfaces.ITeamService {
-	return teamService{
+	return &teamService{
 		teamRepository: repositories.NewTeamRepository(),
 	}
 }
 
-func (ts teamService) CreateTeam(team models.Team) models.Team {
+func (ts *teamService) CreateTeam(team models.Team) models.Team {
 	return ts.teamRepository.Save(team)
 }
 
-func (ts teamService) GetAll() []models.Team {
+func (ts *teamService) GetAll() []models.Team {
 	return ts.teamRepository.FindAll()
 }
 
-func (ts teamService) GetTeamById(id int16) models.Team {
+func (ts *teamService) GetTeamById(id int16) models.Team {
 	return ts.teamRepository.FindById(id)
 }

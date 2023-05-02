@@ -2,6 +2,8 @@ package models
 
 import (
 	"fmt"
+
+	"elbarbaro.com/tornament-app/handlers/responses"
 )
 
 type Coach struct {
@@ -110,5 +112,32 @@ func (l *Leaderboard) Show() {
 	fmt.Println("\nEquipo|	Pts	PG PP PE")
 	for _, team := range l.Teams {
 		fmt.Println(team)
+	}
+}
+
+func (t Team) ToTeamResponse() responses.TeamResponse {
+	return responses.TeamResponse{
+		Id:   t.Id,
+		Name: t.Name,
+		Logo: t.Logo,
+	}
+}
+
+func (p Player) ToPlayerResponse() responses.PlayerResponse {
+	return responses.PlayerResponse{
+		Id:       p.Id,
+		Name:     p.Name,
+		Number:   p.Number,
+		Country:  p.Country,
+		Position: p.Position,
+		Role:     p.Role,
+	}
+}
+
+func (c Coach) ToCoachResponse() responses.CoachResponse {
+	return responses.CoachResponse{
+		Id:         c.Id,
+		Name:       c.Name,
+		Percentage: c.Percentage,
 	}
 }
